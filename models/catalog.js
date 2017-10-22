@@ -5,9 +5,10 @@ const Schema = mongoose.Schema;
 
 var CatalogSchema = new Schema({
     namecatalog: { type: String },
+    
     products:[
         {
-       _id: Schema.ObjectId,
+       _id: Schema.ObjectId
       
         }
     ]

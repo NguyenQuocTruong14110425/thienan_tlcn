@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -14,13 +15,14 @@ export class AdproductComponent implements OnInit {
   message;
   messageClass;
   processing= false;
-  nameproductMessage;
+  productMessage;
 
   form: FormGroup;
   constructor(
     private FormBuilder: FormBuilder,
     private AuthService: AuthService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
 
     this.createForm();
@@ -37,12 +39,14 @@ export class AdproductComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(50),
+        this.validatedescriptionproduct
         
       ])],
       price: ['', Validators.compose([
         Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(11),
+        Validators.minLength(2),
+        Validators.maxLength(10),
+        this.validatepriceproduct
        
       ])],
       image: ['', Validators.compose([
@@ -71,19 +75,6 @@ export class AdproductComponent implements OnInit {
     });
     
   }
-  // Function to display new blog form
-  newProductForm() {
-    this.newProduct = true; // Show new blog form
-  }
-  goBack() {
-    window.location.reload(); // Clear all variable states
-  }
-  getAllProducts() {
-    // Function to GET all blogs from database
-    this.AuthService.getAllProducts().subscribe(data => {
-      this.productposts = data.product; // Assign array to use in HTML
-    });
-  }
   validatenameproduct(controls) {
     const regExp =
       new RegExp(/^[a-zA-Z0-9\s]+$/);
@@ -92,6 +83,38 @@ export class AdproductComponent implements OnInit {
     } else {
       return { 'validatenameproduct': true }
     }
+  }
+  validatedescriptionproduct(controls) {
+    const regExp =
+      new RegExp(/^[a-zA-Z0-9\s]+$/);
+    if (regExp.test(controls.value)) {
+      return null;
+    } else {
+      return { 'validatedescriptionproduct': true }
+    }
+  }
+  validatepriceproduct(controls) {
+    const regExp =
+      new RegExp(/^[0-9]+$/);
+    if (regExp.test(controls.value)) {
+      return null;
+    } else {
+      return { 'validatepriceproduct': true }
+    }
+  }
+  // Function to display new blog form
+  newProductForm() {
+    this.newProduct = true; // Show new blog form
+  }
+  
+  goBack() {
+    this.location.back(); // Clear all variable states
+  }
+  getAllProducts() {
+    // Function to GET all blogs from database
+    this.AuthService.getAllProducts().subscribe(data => {
+      this.productposts = data.product; // Assign array to use in HTML
+    });
   }
   addproductSubmit() {
     this.processing = true;

@@ -239,15 +239,29 @@
             font-size:1.8em;
             color:#fff;
             text-shadow:1px 4px 5px rgba(0,0,0,.8)
-            }
+			}
+			/* them moi cho nay */
          #content > .inner .body
          {
 			 
              width: 65%;
              float: left;
 		 } 
+		 #content > .inner .bodylist
+         {
+			 
+             width: 100%;
+             float: left;
+		 } 
 		
          #content > .inner .body .components
+         {
+             background: #242424;
+             padding: 1em;
+             margin-bottom: 1.2em;
+             -webkit-box-shadow:0 0.1em 0.2em rgba(0,0,0,.3);
+		 } 
+		 #content > .inner .bodylist .components
          {
              background: #242424;
              padding: 1em;
@@ -262,19 +276,34 @@
             color:#9ED2DA;
             border-bottom:0.15em solid #2C2B2B;
 		 } 
-		 #content > .inner .body .components .product-front
+		 #content > .inner .bodylist .components .product-front
 		 {
 			top:10px;
 			left:12px;	
 			width:210px;
-			height:210px;
+			height:180px;
 			
 		}
+	   #content > .inner .bodylist .table, th , td  {
+		border: 1px solid #242424;
+		border-collapse: collapse;
+		padding: 5px;
+		width: 100%;
+		
+	  }
+	  #content > .inner .bodylist .table tr:nth-child(odd) {
+		background-color: #242424;
+	  }
+	  #content > .inner .bodylist .table tr:nth-child(even) {
+		background-color: #242424;
+	  }
          #content > .inner .rightbody
          {
              width: 29%;
              float: right;
-         } 
+		 } 
+		/*toi day*/
+		
          #content > .inner form{
          }
          #content > .inner button

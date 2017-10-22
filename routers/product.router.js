@@ -2,6 +2,7 @@ const Product = require('../models/product');
 const Catalog = require('../models/catalog');
 const config = require('../config/database');
 const async = require('async'),
+ObjectId = require('mongodb').ObjectID,
 fs = require('fs'),
 request = require('request');
 
@@ -121,11 +122,11 @@ module.exports = (router) => {
                   }}, function(err, data){
                     if(!err)
                     {
-                      res.json({ success: true, message: 'saved' });
+                      res.json({ success: true, message: 'Product saved' });
                     }
                     else
                     {
-                      res.json({ success: false, message: 'fuck' });
+                      res.json({ success: false, message: 'Error' });
                     }
                   });
                   }
@@ -170,40 +171,68 @@ module.exports = (router) => {
             if (!product) {
               res.json({ success: false, message: 'product id was not found.' }); // Return error message
             } else { 
-                  // if(product.catalog!=req.body.catalog)
-                  // {
-                  //   Catalog.update({namecatalog : req.body.catalog },
-                  //     {$push:{"products":{
-                  //       _id: product._id}
-                  //     }}, function(err, data){
-                  //       if(!err)
-                  //       {
-                  //         res.json({ success: true, message: 'saved' });
-                  //       }
-                  //       else
-                  //       {
-                  //         res.json({ success: false, message: 'fuck' });
-                  //       }
-                  //     }); 
+                  if(product.catalog!=req.body.catalog)
+                  {
+                    Catalog.update({namecatalog : req.body.catalog },
+                      {$push:{"products":{
+                        _id: product._id}
+                      }}, function(err, data){
+                        if(!err)
+                        {
+                          Catalog.update({namecatalog : product.catalog}, 
+                            { $pull: { "products" : { _id: ObjectId(product._id) 
+                          }}},function(err, data){
+                            if(err)
+                            {
+                              res.json({ success: false, message: 'error' }); 
+                            }
+                            else
+                            {
+                              product.nameproduct = req.body.nameproduct; // Save latest blog title
+                              product.description = req.body.description;
+                              product.price = req.body.price;
+                              product.size = req.body.size;
+                              product.catalog = req.body.catalog;
+                              product.color = req.body.color;
+                              product.save((err) => {
+                                if (err) {
+          
+                                    res.json({ success: false, message: err }); // Return error message
+                                  
+                                } else {
+                                  res.json({ success: true, message: 'Product Updated!' }); // Return success message
+                                }
+                              });       
 
-                  // }
-                      product.nameproduct = req.body.nameproduct; // Save latest blog title
-                      product.description = req.body.description;
-                      product.price = req.body.price;
-                      product.size = req.body.size;
-                      product.catalog = req.body.catalog;
-                      product.color = req.body.color;
-                      product.save((err) => {
-                        if (err) {
-                          if (err.errors) {
-                            res.json({ success: false, message: 'Please ensure form is filled out properly' });
-                          } else {
-                            res.json({ success: false, message: err }); // Return error message
+                      
+                            }
                           }
-                        } else {
-                          res.json({ success: true, message: 'Product Updated!' }); // Return success message
+                        
+                        );
                         }
-                      });          
+                        
+                       
+                      }); 
+                      
+
+                  }  
+                  else{
+                  product.nameproduct = req.body.nameproduct; // Save latest blog title
+                  product.description = req.body.description;
+                  product.price = req.body.price;
+                  product.size = req.body.size;
+                  product.catalog = req.body.catalog;
+                  product.color = req.body.color;
+                  product.save((err) => {
+                    if (err) {
+
+                        res.json({ success: false, message: err }); // Return error message
+                      
+                    } else {
+                      res.json({ success: true, message: 'Product Updated!' }); // Return success message
+                    }
+                  });   
+                }
             }
           }
         });
@@ -215,13 +244,26 @@ module.exports = (router) => {
       }
       else
       {
-      Product.findByIdAndRemove({_id:req.params.id},function (err,catalog) {
+      Product.findByIdAndRemove({_id:req.params.id},function (err,product) {
         if (err){
           res.json({ success: false, message: err }); // Return error
         }
         else
         {
-          res.json({ success: true, message: "deleted" });
+          Catalog.update({namecatalog : product.catalog}, 
+            { $pull: { "products" : { _id: ObjectId(product._id) 
+          }}},function(err, data){
+            if(err)
+            {
+              res.json({ success: false, message: 'error' }); 
+            }
+            else
+            {
+              res.json({ success: true, message: 'Product deleted' });
+            }
+          }
+        
+        );
         }
       });
   }
