@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./adproduct.component.css']
 })
 export class AdproductComponent implements OnInit {
+  catalogposts: any;
   productposts: any;
   newProduct = false;
   message;
@@ -49,7 +50,37 @@ export class AdproductComponent implements OnInit {
         this.validatepriceproduct
        
       ])],
-      image: ['', Validators.compose([
+      leftimage: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(30),
+        
+      ])],
+      leftimagezoom: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(30),
+        
+      ])],
+      underimage: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(30),
+        
+      ])],
+      underimagezoom: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(30),
+        
+      ])],
+      behindimage: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(30),
+        
+      ])],
+      behindimagezoom: ['', Validators.compose([
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(30),
@@ -116,16 +147,27 @@ export class AdproductComponent implements OnInit {
       this.productposts = data.product; // Assign array to use in HTML
     });
   }
+  getAllCatalogs() {
+    // Function to GET all blogs from database
+    this.AuthService.getAllCatalogs().subscribe(data => {
+      this.catalogposts = data.catalog; // Assign array to use in HTML
+    });
+  }
   addproductSubmit() {
     this.processing = true;
     const product = {
       nameproduct: this.form.get('nameproduct').value,
       description: this.form.get('description').value,
       price: this.form.get('price').value,
-      image: this.form.get('image').value,
+      leftimage: this.form.get('leftimage').value,
+      leftimagezoom: this.form.get('leftimagezoom').value,
+      underimage: this.form.get('underimage').value,
+      underimagezoom: this.form.get('underimagezoom').value,
+      behindimage: this.form.get('behindimage').value,
+      behindimagezoom: this.form.get('behindimagezoom').value,
       color: this.form.get('color').value,
       size: this.form.get('size').value,
-      catalog: this.form.get('catalog').value
+      catalog: this.form.get('catalog').value,
     }
     
     this.AuthService.addproduct(product).subscribe(data => {
@@ -160,6 +202,7 @@ export class AdproductComponent implements OnInit {
 
   ngOnInit() {
     this.getAllProducts();
+    this.getAllCatalogs();
   }
 
 }

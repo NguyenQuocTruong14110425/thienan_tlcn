@@ -4,11 +4,12 @@ import { RegisterComponent } from '../../components/register/register.component'
 import { AdproductComponent } from '../../admin/adproduct/adproduct.component';
 import { Routes, RouterModule } from '@angular/router';
 import { EditproductComponent } from '../../admin/adproduct/editproduct/editproduct.component';
-
+import {DetailproductComponent} from '../../components/detailproduct/detailproduct.component'
 export const CLIENT_ROUTES: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
     { path: 'add', component: AdproductComponent },
-    { path: 'edit-product/:id',component: EditproductComponent}
+    { path: 'edit-product/:id',component: EditproductComponent},
+    { path: 'detailproduct/:id', component: DetailproductComponent },
 ];

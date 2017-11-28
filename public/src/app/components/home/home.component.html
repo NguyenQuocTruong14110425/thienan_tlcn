@@ -1,5 +1,4 @@
-
-<div class="bodycontent">  
+ <div class="bodycontent">  
     <div class="container">
         <div class="row">
           <div class="col-sm-8 col-sm-offset-2 text">
@@ -23,32 +22,26 @@
         </div>
       </div>
       <div class="container">
-    <div class="col-md-3">
+    <div class="col-md-3" *ngFor="let product of productposts">
       <div id="make-3D-space">
         <div id="product-card">
           <div id="product-front">
-            <img  src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/air-jordan-5-retro-basketball-136027051-1"
-              alt="" />
+            <img src="https://drive.google.com/uc?id={{product.leftimage}}"
+            alt="" />
             <div class="title_product">
               <div>
-                  <span class="product_name">sdfsfsv dsdasdasd</span>
+                  <span class="product_name">{{product.nameproduct}}</span>
              
               </div>
-              <span class="product_price">$39</span>
-              <div id="view_details">QUICK BUY</div>
+              <span class="product_price">{{product.price}}</span>
+              <!-- <div> <a [routerLink]="['/detailproduct/', product._id]" ><button id="view_details">QUICK BUY</button></a></div> -->
+              <div [routerLink]="['/detailproduct/', product._id]" id="view_details">QUICK BUY</div>
               <div class="stats">
                 <div class="stats-container">
-                  <p>Men's running shirt</p>
+                  <p>{{product.catalog}}</p>
                   <div class="product-options">
                     <strong>SIZES</strong>
-                    <span>XS, S, M, L, XL, XXL</span>
-                    <strong>COLORS</strong>
-                    <div class="colors">
-                      <div class="c-blue"><span></span></div>
-                      <div class="c-red"><span></span></div>
-                      <div class="c-white"><span></span></div>
-                      <div class="c-green"><span></span></div>
-                    </div>
+                    <span>{{product.size}}</span>
                   </div>
                 </div>
               </div>
@@ -57,336 +50,6 @@
         </div>
       </div>
     </div>
-
-
-    <div class="col-md-3">
-      <div id="make-3D-space">
-        <div id="product-card">
-          <div id="product-front">
-            <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-              alt="" />
-            <div class="title_product">
-              <span class="product_price">$39</span>
-              <span class="product_name">Adidas Originals</span>
-              <div id="view_details">QUICK BUY</div>
-              <div class="stats">
-                <div class="stats-container">
-                  <p>Men's running shirt</p>
-
-                  <div class="product-options">
-                    <strong>SIZES</strong>
-                    <span>XS, S, M, L, XL, XXL</span>
-                    <strong>COLORS</strong>
-                    <div class="colors">
-                      <div class="c-blue"><span></span></div>
-                      <div class="c-red"><span></span></div>
-                      <div class="c-white"><span></span></div>
-                      <div class="c-green"><span></span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-md-3">
-      <div id="make-3D-space">
-        <div id="product-card">
-          <div id="product-front">
-            <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-              alt="" />
-            <div class="title_product">
-              <span class="product_price">$39</span>
-              <span class="product_name">Adidas Originals</span>
-              <div id="view_details">QUICK BUY</div>
-              <div class="stats">
-                <div class="stats-container">
-                  <p>Men's running shirt</p>
-
-                  <div class="product-options">
-                    <strong>SIZES</strong>
-                    <span>XS, S, M, L, XL, XXL</span>
-                    <strong>COLORS</strong>
-                    <div class="colors">
-                      <div class="c-blue"><span></span></div>
-                      <div class="c-red"><span></span></div>
-                      <div class="c-white"><span></span></div>
-                      <div class="c-green"><span></span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-md-3">
-      <div id="make-3D-space">
-        <div id="product-card">
-          <div id="product-front">
-            <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-              alt="" />
-            <div class="title_product">
-              <span class="product_price">$39</span>
-              <span class="product_name">Adidas Originals</span>
-              <div id="view_details">QUICK BUY</div>
-              <div class="stats">
-                <div class="stats-container">
-                  <p>Men's running shirt</p>
-
-                  <div class="product-options">
-                    <strong>SIZES</strong>
-                    <span>XS, S, M, L, XL, XXL</span>
-                    <strong>COLORS</strong>
-                    <div class="colors">
-                      <div class="c-blue"><span></span></div>
-                      <div class="c-red"><span></span></div>
-                      <div class="c-white"><span></span></div>
-                      <div class="c-green"><span></span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-md-3">
-      <div id="make-3D-space">
-        <div id="product-card">
-          <div id="product-front">
-            <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-              alt="" />
-            <div class="title_product">
-              <span class="product_price">$39</span>
-              <span class="product_name">Adidas Originals</span>
-              <div id="view_details">QUICK BUY</div>
-              <div class="stats">
-                <div class="stats-container">
-                  <p>Men's running shirt</p>
-
-                  <div class="product-options">
-                    <strong>SIZES</strong>
-                    <span>XS, S, M, L, XL, XXL</span>
-                    <strong>COLORS</strong>
-                    <div class="colors">
-                      <div class="c-blue"><span></span></div>
-                      <div class="c-red"><span></span></div>
-                      <div class="c-white"><span></span></div>
-                      <div class="c-green"><span></span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-md-3">
-      <div id="make-3D-space">
-        <div id="product-card">
-          <div id="product-front">
-            <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-              alt="" />
-            <div class="title_product">
-              <span class="product_price">$39</span>
-              <span class="product_name">Adidas Originals</span>
-              <div id="view_details">QUICK BUY</div>
-              <div class="stats">
-                <div class="stats-container">
-                  <p>Men's running shirt</p>
-
-                  <div class="product-options">
-                    <strong>SIZES</strong>
-                    <span>XS, S, M, L, XL, XXL</span>
-                    <strong>COLORS</strong>
-                    <div class="colors">
-                      <div class="c-blue"><span></span></div>
-                      <div class="c-red"><span></span></div>
-                      <div class="c-white"><span></span></div>
-                      <div class="c-green"><span></span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-        <div id="make-3D-space">
-          <div id="product-card">
-            <div id="product-front">
-              <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-                alt="" />
-              <div class="title_product">
-                <span class="product_price">$39</span>
-                <span class="product_name">Adidas Originals</span>
-                <div id="view_details">QUICK BUY</div>
-                <div class="stats">
-                  <div class="stats-container">
-                    <p>Men's running shirt</p>
-  
-                    <div class="product-options">
-                      <strong>SIZES</strong>
-                      <span>XS, S, M, L, XL, XXL</span>
-                      <strong>COLORS</strong>
-                      <div class="colors">
-                        <div class="c-blue"><span></span></div>
-                        <div class="c-red"><span></span></div>
-                        <div class="c-white"><span></span></div>
-                        <div class="c-green"><span></span></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-          <div id="make-3D-space">
-            <div id="product-card">
-              <div id="product-front">
-                <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-                  alt="" />
-                <div class="title_product">
-                  <span class="product_price">$39</span>
-                  <span class="product_name">Adidas Originals</span>
-                  <div id="view_details">QUICK BUY</div>
-                  <div class="stats">
-                    <div class="stats-container">
-                      <p>Men's running shirt</p>
-    
-                      <div class="product-options">
-                        <strong>SIZES</strong>
-                        <span>XS, S, M, L, XL, XXL</span>
-                        <strong>COLORS</strong>
-                        <div class="colors">
-                          <div class="c-blue"><span></span></div>
-                          <div class="c-red"><span></span></div>
-                          <div class="c-white"><span></span></div>
-                          <div class="c-green"><span></span></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-            <div id="make-3D-space">
-              <div id="product-card">
-                <div id="product-front">
-                  <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-                    alt="" />
-                  <div class="title_product">
-                    <span class="product_price">$39</span>
-                    <span class="product_name">Adidas Originals</span>
-                    <div id="view_details">QUICK BUY</div>
-                    <div class="stats">
-                      <div class="stats-container">
-                        <p>Men's running shirt</p>
-      
-                        <div class="product-options">
-                          <strong>SIZES</strong>
-                          <span>XS, S, M, L, XL, XXL</span>
-                          <strong>COLORS</strong>
-                          <div class="colors">
-                            <div class="c-blue"><span></span></div>
-                            <div class="c-red"><span></span></div>
-                            <div class="c-white"><span></span></div>
-                            <div class="c-green"><span></span></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-              <div id="make-3D-space">
-                <div id="product-card">
-                  <div id="product-front">
-                    <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-                      alt="" />
-                    <div class="title_product">
-                      <span class="product_price">$39</span>
-                      <span class="product_name">Adidas Originals</span>
-                      <div id="view_details">QUICK BUY</div>
-                      <div class="stats">
-                        <div class="stats-container">
-                          <p>Men's running shirt</p>
-        
-                          <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                              <div class="c-blue"><span></span></div>
-                              <div class="c-red"><span></span></div>
-                              <div class="c-white"><span></span></div>
-                              <div class="c-green"><span></span></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-                <div id="make-3D-space">
-                  <div id="product-card">
-                    <div id="product-front">
-                      <img src="http://image.sneakerhead.com/is/image/sneakerhead/cat-single?$sn20-175x132$&$img=sneakerhead/nike-jordan-8-retro-basketball-305381014-1"
-                        alt="" />
-                      <div class="title_product">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">Adidas Originals</span>
-                        <div id="view_details">QUICK BUY</div>
-                        <div class="stats">
-                          <div class="stats-container">
-                            <p>Men's running shirt</p>
-          
-                            <div class="product-options">
-                              <strong>SIZES</strong>
-                              <span>XS, S, M, L, XL, XXL</span>
-                              <strong>COLORS</strong>
-                              <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
     </div>
 </div>
@@ -402,4 +65,6 @@
       <a href="#"><img src="../assets/images/social/ig.jpg"></a>
       <a href="#"><img src="../assets/images/social/twiter.jpg"></a>
     </div>
-  </section>
+  </section> 
+
+   

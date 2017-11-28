@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const config = require('../config/database');
 
-
 module.exports = (router) => {
     router.post('/register', (req, res) => {
         if (!req.body.email || !req.body.fullname ||  !req.body.username || !req.body.address || !req.body.numberphone||  !req.body.password) {

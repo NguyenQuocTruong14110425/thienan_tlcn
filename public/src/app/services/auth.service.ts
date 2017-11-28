@@ -39,6 +39,9 @@ export class AuthService {
   getAllProducts() {
     return this.http.get(this.domain + '/products/getallproducts' , this.options).map(res => res.json());
   }
+  getAllCatalogs() {
+    return this.http.get(this.domain + '/products/getallcatalogs' , this.options).map(res => res.json());
+  }
   getSingleProduct(id) {
     return this.http.get(this.domain + '/products/singleProduct/' + id, this.options).map(res => res.json());
   }

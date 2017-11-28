@@ -44,7 +44,7 @@ img {
 	top:5px;
 	left:5px;
 	width:235px;
-	height:400px;
+	height:330px;
 	box-shadow:0 2em 0.9em rgba(0,0,0,1);
 	-moz-box-shadow:0 2em 0.5em rgba(0,0,0,.3);
 	-webkit-box-shadow:0 1em 3em rgba(0,0,1,5);
@@ -81,7 +81,7 @@ img {
 	color:#fff;	
 }
 .title_product .product_price{
-	padding-left: 80px;
+	padding-left: 85px;
 	font-size:0.85em;
 	color:#BFBFBF;	
 	/* color:#BFBFBF;transition:all .3s ease-in-out!important;-webkit-transition:all .3s ease-in-out!important;-moz-transition:all .3s ease-in-out!important;-o-transition:all .3s ease-in-out!important;-ms-transition:all .3s ease-in-out!important */

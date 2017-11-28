@@ -75,7 +75,27 @@
       <div class="form-group">
         
       <div>
-          Path file image: <input id="image" name="image" formControlName="image" type="text"/>
+          Path left image: <input id="leftimage" class="form-control" name="leftimage" formControlName="leftimage" type="text"/>
+      </div>
+      <br/>
+      <div>
+          Path left image zoom: <input id="leftimagezoom" class="form-control" name="leftimagezoom" formControlName="leftimagezoom" type="text"/>
+      </div>
+      <br/>
+      <div>
+        Path under image: <input id="underimage" class="form-control" name="underimage" formControlName="underimage" type="text"/>
+      </div>
+      <br/>
+      <div>
+        Path under image zoom: <input id="underimagezoom" class="form-control" name="underimagezoom" formControlName="underimagezoom" type="text"/>
+      </div>
+      <br/>
+      <div>
+        Path behind image: <input id="behindimage" class="form-control" name="behindimage" formControlName="behindimage" type="text"/>
+      </div>
+      <br/>
+      <div>
+        Path behind image zoom: <input id="behindimagezoom" class="form-control" name="behindimagezoom" formControlName="behindimagezoom" type="text"/>
       </div>
       </div>
     </div>
@@ -83,28 +103,24 @@
    
     <div class="rightbody">
 <div class="components">
-      <h1>Catalog</h1>
+    <h1>Catalog</h1> 
+    <select id="catalog" class="form-control" name="catalog" formControlName="catalog">       
+      <option  *ngFor="let catalog of catalogposts">
+        {{catalog.namecatalog}}
+      </option>      
+      </select>   
+      </div>
+<div class="components">
+      <h1>Color</h1>
     <div class="form-group">
-      <select id="catalog" class="form-control" name="catalog" formControlName="catalog">
-          <option>running</option>
-          <option>sneaker</option>
-          <option>fashion</option>
-          <option>old</option>
+      <select id="color" class="form-control" name="color" formControlName="color">
+          <option>black</option>
+          <option>green</option>
+          <option>blue</option>
+          <option>wthie</option>
         </select>
     </div>
   </div>
-      
-      
-<div class="components">
-    <h1>Color</h1>
-    <select id="color" class="form-control" name="color" formControlName="color">
-        <option>black</option>
-        <option>green</option>
-        <option>pink</option>
-        <option>wthite</option>
-        <option>yellow</option>
-      </select>
-      </div>
 <div class="components">
     <h1>Size</h1>
     <select id="size" class="size" class="form-control" name="size" formControlName="size">
@@ -129,39 +145,42 @@
         <button type="button" name="button" class="btn btn-warning" *ngIf="!newProduct" (click)="newProductForm()">New Product</button>
         <br/>
         <br/>
+        <table class="table">
+        <thead>
+            <tr>
+              <th class="col-md-2">ProductName</th>
+              <th class="col-md-3">Description</th>
+              <th class="col-md-1">Price</th>
+              <th class="col-md-1">Catalog</th>
+              <th class="col-md-1">Color</th>
+              <th class="col-md-1">Size</th>
+              <th class="col-md-1">Image</th>
+              <th class="col-md-1"></th>
+            </tr>
+          </thead>
+        </table>      
+          <table class="table"> 
+                     
+              <tr>                 
+                  <div *ngFor="let product of productposts">
+                  <td class="col-md-2">{{product.nameproduct}}</td>               
+                  <td class="col-md-3">{{product.description}}</td>                 
+                  <td class="col-md-1">{{product.price}}</td>                  
+                  <td class="col-md-1">{{product.catalog}}</td>
+                  <td class="col-md-1">{{product.color}}</td>
+                  <td class="col-md-1">{{product.size}}</td>               
+                  <td class="col-md-1"><img src="https://drive.google.com/uc?id={{product.leftimage}}"
+                    alt="" /></td>   
+                  <td class="col-md-1">
+                    <div> <a [routerLink]="['/edit-product/', product._id]" ><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a></div>
+                    <div><button (click)="onDeleteProductsubmit(product._id)" type="button" name="button" class="btn btn-sm btn-danger">Delete</button> </div></td>
+                  </div>             
+                </tr>             
+            
+          </table>
+        
       <!-- Panel Outer Layer -->
-      <div *ngFor="let product of productposts">
     
-        <!-- Panel Title -->
-        <div class="components">
-            <td>
-            <strong>NameProduct: </strong>{{ product.nameproduct }}
-            <br/>
-            <strong>Description: </strong>{{ product.description }}
-            <br/>
-            <strong>Price </strong>{{ product.price }}
-           <br/>
-            <strong>Catalog: </strong>{{ product.catalog }}
-           <br/>
-            <strong>Color: </strong>{{ product.color }}
-            <br/>
-            <strong>Size: </strong>{{ product.size }}
-           <br/>
-        </td>
-       <td>
-           <strong>Image: </strong>
-           <div class="product-front">
-           <img src="https://drive.google.com/uc?id={{ product.image }}"
-           alt="" />
-          </div>   
-          </td>       
-           <a [routerLink]="['/edit-product/', product._id]" ><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
-           <button (click)="onDeleteProductsubmit(product._id)" type="button" name="button" class="btn btn-sm btn-danger">Delete</button> 
-          <br/>
-          </div>
-        </div>
-      <!-- Panel Outer Layer -->
-    </div>
     </div>
 </div>
   </div>

@@ -3,16 +3,21 @@ const Catalog = require('../models/catalog');
 const config = require('../config/database');
 const async = require('async'),
 ObjectId = require('mongodb').ObjectID,
-fs = require('fs'),
+fs1 = require('fs'),
+fs2 = require('fs'),
+fs3 = require('fs'),
+fs4 = require('fs'),
+fs5 = require('fs'),
+fs6 = require('fs'),
 request = require('request');
-
+// || !req.body.description || !req.body.price || !req.body.leftimage
+// || !req.body.leftimagezoom || !req.body.underimage || !req.body.underimagezoom || !req.body.behindimage || !req.body.behindimagezoom
 module.exports = (router) => {
     router.post('/createproduct', (req, res) => {
-        if (!req.body.nameproduct || !req.body.description || !req.body.price || !req.body.image) {
+        if (!req.body.nameproduct ) {
             res.json({ success: false, message: 'you must enter input' });
         }
         else {
-            const filename = req.body.image;
             var GoogleTokenProvider = require('refresh-token').GoogleTokenProvider;
             
             const CLIENT_ID = '360407678538-ts6k1eceunflqbd5433kr9pt7o6agekd.apps.googleusercontent.com';
@@ -20,11 +25,14 @@ module.exports = (router) => {
             const REFRESH_TOKEN = '1/7NHKOwX2AHxJ_Z4rhuz31NRQps20uUbGflvxn1yAqEc';
             const ENDPOINT_OF_GDRIVE = 'https://www.googleapis.com/drive/v2';
             const PARENT_FOLDER_ID = '0B8sFb7bO0YNiUjZiOFVGN00tdkU';
-            const PNG_FILE = filename;
+            const PNG_LEFT_IMAGE = req.body.leftimage;
+            const PNG_LEFT_IMAGE_ZOOM = req.body.leftimagezoom;
+            const PNG_UNDER_IMAGE = req.body.underimage;
+            const PNG_UNDER_IMAGE_ZOOM = req.body.underimagezoom;
+            const PNG_BEHIND_IMAGE = req.body.behindimage;
+            const PNG_BEHIND_IMAGE_ZOOM = req.body.behindimagezoom;
+            const name_product = req.body.nameproduct;
             async.waterfall([
-                //-----------------------------
-                // Obtain a new access token
-                //-----------------------------
                 function(callback) {
                   var tokenProvider = new GoogleTokenProvider({
                     'refresh_token': REFRESH_TOKEN,
@@ -35,16 +43,15 @@ module.exports = (router) => {
                 },
               
                 function(accessToken, callback) {
-                  
-                  var fstatus = fs.statSync(PNG_FILE);
-                  fs.open(PNG_FILE, 'r', function(status, fileDescripter) {
+                  var fs5tatus = fs5.statSync(PNG_BEHIND_IMAGE_ZOOM);
+                  fs5.open(PNG_BEHIND_IMAGE_ZOOM, 'r', function(status, fileDescripter) {
                     if (status) {
                       callback(status.message);
                       return;
                     }
                     
-                    var buffer = new Buffer(fstatus.size);
-                    fs.read(fileDescripter, buffer, 0, fstatus.size, 0, function(err, num) {
+                    var buffer = new Buffer(fs5tatus.size);
+                    fs5.read(fileDescripter, buffer, 0, fs5tatus.size, 0, function(err, num) {
                         
                       request.post({
                         'url': 'https://www.googleapis.com/upload/drive/v2/files',
@@ -60,10 +67,11 @@ module.exports = (router) => {
                           {
                             'Content-Type': 'application/json; charset=UTF-8',
                             'body': JSON.stringify({
-                               'title': PNG_FILE,
+                               'title': PNG_BEHIND_IMAGE_ZOOM,
                                'parents': [
                                  {
                                    'id': PARENT_FOLDER_ID
+                                   
                                  }
                                ]
                              })
@@ -88,49 +96,430 @@ module.exports = (router) => {
               
               ], function(err, results) {
                 if (!err) {
-                    let product = new Product({
-                        nameproduct: req.body.nameproduct,
-                        description: req.body.description,
-                        price: req.body.price,
-                        image: results.id,
-                        color: req.body.color,
-                        size: req.body.size,
-                        catalog: req.body.catalog
-                    });
-                    
-            product.save((err, product) => {
-                if (err) {
-                    if (err.code === 11000) {
-                        res.json({ success: false, message: 'Username or e-mail allready exists' });
-                    }
-                    else {
-                        if (err.errors) {
-                            res.json({ success: false, message: err.message });
-                            
-                        }
-                        else {
-                            res.json({ success: false, message: 'Could not save user. Error: ', err });
-                        }
-                    }
+                  let product = new Product({
+                    nameproduct: req.body.nameproduct,
+                    description: req.body.description,
+                    price: req.body.price,                  
+                    behindimagezoom: results.id,
+                    color: req.body.color,
+                    size: req.body.size,
+                    catalog: req.body.catalog
+                });
+                
+              product.save((err, product) => {
+              if (err) {
+                if (err.code === 11000) {
+                    res.json({ success: false, message: 'Username or e-mail allready exists' });
                 }
                 else {
-                 
-              
-                Catalog.update({namecatalog : req.body.catalog },
-                  {$push:{"products":{
-                    _id: product._id}
-                  }}, function(err, data){
-                    if(!err)
-                    {
-                      res.json({ success: true, message: 'Product saved' });
+                    if (err.errors) {
+                        res.json({ success: false, message: err.message });
+                        
                     }
-                    else
-                    {
-                      res.json({ success: false, message: 'Error' });
+                    else {
+                        res.json({ success: false, message: 'Could not save user. Error: ', err });
                     }
-                  });
-                  }
-            });
+                }
+              }
+              else {
+      
+      
+              Catalog.update({namecatalog : req.body.catalog },
+              {$push:{"products":{
+                _id: product._id}
+              }}, function(err, data){
+                if(!err)
+                {
+                  async.waterfall([
+                    function(callback) {
+                      var tokenProvider = new GoogleTokenProvider({
+                        'refresh_token': REFRESH_TOKEN,
+                        'client_id': CLIENT_ID,
+                        'client_secret': CLIENT_SECRET
+                      });
+                      tokenProvider.getToken(callback);
+                    },
+                  
+                    function(accessToken, callback) {
+                      var fs1tatus = fs1.statSync(PNG_LEFT_IMAGE);
+                      fs1.open(PNG_LEFT_IMAGE, 'r', function(status, fileDescripter) {
+                        if (status) {
+                          callback(status.message);
+                          return;
+                        }
+                        
+                        var buffer = new Buffer(fs1tatus.size);
+                        fs1.read(fileDescripter, buffer, 0, fs1tatus.size, 0, function(err, num) {
+                            
+                          request.post({
+                            'url': 'https://www.googleapis.com/upload/drive/v2/files',
+                            'qs': {
+                               //request module adds "boundary" and "Content-Length" automatically.
+                              'uploadType': 'multipart'
+                  
+                            },
+                            'headers' : {
+                              'Authorization': 'Bearer ' + accessToken
+                            },
+                            'multipart':  [
+                              {
+                                'Content-Type': 'application/json; charset=UTF-8',
+                                'body': JSON.stringify({
+                                   'title': PNG_LEFT_IMAGE,
+                                   'parents': [
+                                     {
+                                       'id': PARENT_FOLDER_ID
+                                       
+                                     }
+                                   ]
+                                 })
+                              },
+                              {
+                                'Content-Type': 'image/png',
+                                'body': buffer
+                              }
+                            ]
+                          }, callback);
+                          
+                        });
+                      });
+                    },
+                    //----------------------------
+                    // Parse the response
+                    //----------------------------
+                    function(response, body, callback) {
+                      var body = JSON.parse(body);
+                      callback(null, body);
+                    },
+                  
+                  ], function(err, results) {
+                    if (!err) {
+                      Product.update({nameproduct : name_product}, {$set : {leftimage : results.id}},function (err, product) {
+                       if(!err){
+                        async.waterfall([
+                          function(callback) {
+                            var tokenProvider = new GoogleTokenProvider({
+                              'refresh_token': REFRESH_TOKEN,
+                              'client_id': CLIENT_ID,
+                              'client_secret': CLIENT_SECRET
+                            });
+                            tokenProvider.getToken(callback);
+                          },
+                        
+                          function(accessToken, callback) {
+                            var fs2tatus = fs2.statSync(PNG_LEFT_IMAGE_ZOOM);
+                            fs2.open(PNG_LEFT_IMAGE_ZOOM, 'r', function(status, fileDescripter) {
+                              if (status) {
+                                callback(status.message);
+                                return;
+                              }
+                              
+                              var buffer = new Buffer(fs2tatus.size);
+                              fs2.read(fileDescripter, buffer, 0, fs2tatus.size, 0, function(err, num) {
+                                  
+                                request.post({
+                                  'url': 'https://www.googleapis.com/upload/drive/v2/files',
+                                  'qs': {
+                                     //request module adds "boundary" and "Content-Length" automatically.
+                                    'uploadType': 'multipart'
+                        
+                                  },
+                                  'headers' : {
+                                    'Authorization': 'Bearer ' + accessToken
+                                  },
+                                  'multipart':  [
+                                    {
+                                      'Content-Type': 'application/json; charset=UTF-8',
+                                      'body': JSON.stringify({
+                                         'title': PNG_LEFT_IMAGE_ZOOM,
+                                         'parents': [
+                                           {
+                                             'id': PARENT_FOLDER_ID
+                                             
+                                           }
+                                         ]
+                                       })
+                                    },
+                                    {
+                                      'Content-Type': 'image/png',
+                                      'body': buffer
+                                    }
+                                  ]
+                                }, callback);
+                                
+                              });
+                            });
+                          },
+                          //----------------------------
+                          // Parse the response
+                          //----------------------------
+                          function(response, body, callback) {
+                            var body = JSON.parse(body);
+                            callback(null, body);
+                          },
+                        
+                        ], function(err, results) {
+                          if (!err) {
+                            Product.update({nameproduct : name_product}, {$set : {leftimagezoom : results.id}},function (err, product) {
+                              if(!err)
+                              {
+                                async.waterfall([
+                                  function(callback) {
+                                    var tokenProvider = new GoogleTokenProvider({
+                                      'refresh_token': REFRESH_TOKEN,
+                                      'client_id': CLIENT_ID,
+                                      'client_secret': CLIENT_SECRET
+                                    });
+                                    tokenProvider.getToken(callback);
+                                  },
+                                
+                                  function(accessToken, callback) {
+                                    var fs3tatus = fs3.statSync(PNG_UNDER_IMAGE);
+                                    fs3.open(PNG_UNDER_IMAGE, 'r', function(status, fileDescripter) {
+                                      if (status) {
+                                        callback(status.message);
+                                        return;
+                                      }
+                                      
+                                      var buffer = new Buffer(fs3tatus.size);
+                                      fs3.read(fileDescripter, buffer, 0, fs3tatus.size, 0, function(err, num) {
+                                          
+                                        request.post({
+                                          'url': 'https://www.googleapis.com/upload/drive/v2/files',
+                                          'qs': {
+                                             //request module adds "boundary" and "Content-Length" automatically.
+                                            'uploadType': 'multipart'
+                                
+                                          },
+                                          'headers' : {
+                                            'Authorization': 'Bearer ' + accessToken
+                                          },
+                                          'multipart':  [
+                                            {
+                                              'Content-Type': 'application/json; charset=UTF-8',
+                                              'body': JSON.stringify({
+                                                 'title': PNG_UNDER_IMAGE,
+                                                 'parents': [
+                                                   {
+                                                     'id': PARENT_FOLDER_ID
+                                                     
+                                                   }
+                                                 ]
+                                               })
+                                            },
+                                            {
+                                              'Content-Type': 'image/png',
+                                              'body': buffer
+                                            }
+                                          ]
+                                        }, callback);
+                                        
+                                      });
+                                    });
+                                  },
+                                  //----------------------------
+                                  // Parse the response
+                                  //----------------------------
+                                  function(response, body, callback) {
+                                    var body = JSON.parse(body);
+                                    callback(null, body);
+                                  },
+                                
+                                ], function(err, results) {
+                                  if (!err) {
+                                    Product.update({nameproduct : name_product}, {$set : {underimage : results.id}},function (err, product) {
+                                      if(!err)
+                                      {
+                                  async.waterfall([
+                                  function(callback) {
+                                    var tokenProvider = new GoogleTokenProvider({
+                                      'refresh_token': REFRESH_TOKEN,
+                                      'client_id': CLIENT_ID,
+                                      'client_secret': CLIENT_SECRET
+                                    });
+                                    tokenProvider.getToken(callback);
+                                  },
+
+                                  function(accessToken, callback) {
+                                    var fs4tatus = fs4.statSync(PNG_BEHIND_IMAGE);
+                                    fs4.open(PNG_BEHIND_IMAGE, 'r', function(status, fileDescripter) {
+                                      if (status) {
+                                        callback(status.message);
+                                        return;
+                                      }
+                                      
+                                      var buffer = new Buffer(fs4tatus.size);
+                                      fs4.read(fileDescripter, buffer, 0, fs4tatus.size, 0, function(err, num) {
+                                          
+                                        request.post({
+                                          'url': 'https://www.googleapis.com/upload/drive/v2/files',
+                                          'qs': {
+                                            //request module adds "boundary" and "Content-Length" automatically.
+                                            'uploadType': 'multipart'
+
+                                          },
+                                          'headers' : {
+                                            'Authorization': 'Bearer ' + accessToken
+                                          },
+                                          'multipart':  [
+                                            {
+                                              'Content-Type': 'application/json; charset=UTF-8',
+                                              'body': JSON.stringify({
+                                                'title': PNG_BEHIND_IMAGE,
+                                                'parents': [
+                                                  {
+                                                    'id': PARENT_FOLDER_ID
+                                                    
+                                                  }
+                                                ]
+                                              })
+                                            },
+                                            {
+                                              'Content-Type': 'image/png',
+                                              'body': buffer
+                                            }
+                                          ]
+                                        }, callback);
+                                        
+                                      });
+                                    });
+                                  },
+                                  //----------------------------
+                                  // Parse the response
+                                  //----------------------------
+                                  function(response, body, callback) {
+                                    var body = JSON.parse(body);
+                                    callback(null, body);
+                                  },
+
+                                ], function(err, results) {
+                                  if (!err) {
+                                    Product.update({nameproduct : name_product}, {$set : {behindimage : results.id}},function (err, product) {
+                                      if(!err)
+                                      {
+                                        async.waterfall([
+                                          function(callback) {
+                                            var tokenProvider = new GoogleTokenProvider({
+                                              'refresh_token': REFRESH_TOKEN,
+                                              'client_id': CLIENT_ID,
+                                              'client_secret': CLIENT_SECRET
+                                            });
+                                            tokenProvider.getToken(callback);
+                                          },
+                                        
+                                          function(accessToken, callback) {
+                                            var fs6tatus = fs6.statSync(PNG_UNDER_IMAGE_ZOOM);
+                                            fs6.open(PNG_UNDER_IMAGE_ZOOM, 'r', function(status, fileDescripter) {
+                                              if (status) {
+                                                callback(status.message);
+                                                return;
+                                              }
+                                              
+                                              var buffer = new Buffer(fs6tatus.size);
+                                              fs6.read(fileDescripter, buffer, 0, fs6tatus.size, 0, function(err, num) {
+                                                  
+                                                request.post({
+                                                  'url': 'https://www.googleapis.com/upload/drive/v2/files',
+                                                  'qs': {
+                                                     //request module adds "boundary" and "Content-Length" automatically.
+                                                    'uploadType': 'multipart'
+                                        
+                                                  },
+                                                  'headers' : {
+                                                    'Authorization': 'Bearer ' + accessToken
+                                                  },
+                                                  'multipart':  [
+                                                    {
+                                                      'Content-Type': 'application/json; charset=UTF-8',
+                                                      'body': JSON.stringify({
+                                                         'title': PNG_UNDER_IMAGE_ZOOM,
+                                                         'parents': [
+                                                           {
+                                                             'id': PARENT_FOLDER_ID
+                                                             
+                                                           }
+                                                         ]
+                                                       })
+                                                    },
+                                                    {
+                                                      'Content-Type': 'image/png',
+                                                      'body': buffer
+                                                    }
+                                                  ]
+                                                }, callback);
+                                                
+                                              });
+                                            });
+                                          },
+                                          //----------------------------
+                                          // Parse the response
+                                          //----------------------------
+                                          function(response, body, callback) {
+                                            var body = JSON.parse(body);
+                                            callback(null, body);
+                                          },
+                                        
+                                        ], function(err, results) {
+                                          if (!err) {
+                                            Product.update({nameproduct : name_product}, {$set : {underimagezoom : results.id}},function (err, product) {
+                                              if(!err)
+                                              {
+                                                res.json({ success: true, message: 'Product saved' });
+                                              }
+                                              else
+                                              {
+                                                res.json({ success: false, message: 'Error' });
+                                              }
+                                            });
+                                        }
+                                        else {
+                                        console.error('---error');
+                                        console.error(err); 
+                                        }
+                                        });
+                                        
+                                      }
+                                    });
+                                }
+                                else {
+                                console.error('---error');
+                                console.error(err); 
+                                }
+                                });
+
+                                      }
+                                    });
+                                }
+                                else {
+                                console.error('---error');
+                                console.error(err); 
+                                }
+                                });
+                              }
+                            });
+                        }
+                        else {
+                        console.error('---error');
+                        console.error(err); 
+                        }
+                        });
+                       }
+                      });
+              }
+              else {
+                console.error('---error');
+                console.error(err); 
+              }
+              });
+                }
+                else
+                {
+                  res.json({ success: false, message: 'Error' });
+                }
+              });
+              }
+              });
+      
         }
         else {
             console.error('---error');
@@ -139,7 +528,7 @@ module.exports = (router) => {
     });
         }
         
-    });
+});
     router.get('/getallproducts', (req, res) => {
       // Search database for all blog posts
       Product.find({}, (err, product) => {
@@ -152,6 +541,22 @@ module.exports = (router) => {
             res.json({ success: false, message: 'No products found.' }); // Return error of no blogs found
           } else {
             res.json({ success: true, product: product }); // Return success and blogs array
+          }
+        }
+      }).sort({ '_id': -1 }); // Sort blogs from newest to oldest
+    });
+    router.get('/getallcatalogs', (req, res) => {
+      // Search database for all blog posts
+      Catalog.find({}, (err, catalog) => {
+        // Check if error was found or not
+        if (err) {
+          res.json({ success: false, message: err }); // Return error message
+        } else {
+          // Check if blogs were found in database
+          if (!catalog) {
+            res.json({ success: false, message: 'No catalogs found.' }); // Return error of no blogs found
+          } else {
+            res.json({ success: true, catalog: catalog }); // Return success and blogs array
           }
         }
       }).sort({ '_id': -1 }); // Sort blogs from newest to oldest

@@ -1,0 +1,12 @@
+.table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.table th, .table td {
+        overflow: hidden;
+    }
+.table td img{
+    height: 40px;
+    width: 40px;
+}
